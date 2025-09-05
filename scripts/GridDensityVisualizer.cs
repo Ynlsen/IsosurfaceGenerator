@@ -12,7 +12,7 @@ public partial class GridDensityVisualizer : Node3D
 		var shader = GD.Load<Shader>("res://shaders/BillboardPoint.gdshader");
 		_billboardMaterial = new ShaderMaterial { Shader = shader };
 
-
+        // Using MultiMesh for GPU instancing to significantly improve performance
 		var multiMesh = new MultiMesh();
 		multiMesh.Mesh = new QuadMesh { Size = new Vector2(0.1f, 0.1f) };
 		multiMesh.TransformFormat = MultiMesh.TransformFormatEnum.Transform3D;
