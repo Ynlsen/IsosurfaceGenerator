@@ -5,6 +5,7 @@ void vertex() {
 	float density = INSTANCE_CUSTOM.x;
 	COLOR.r = density;
 	
+	// Rotates the quad so that it always faces the camera
 	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
         INV_VIEW_MATRIX[0],
         INV_VIEW_MATRIX[1],
