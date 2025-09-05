@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="Marching Cubes"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="uid://elgipfl27uee"
+config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
