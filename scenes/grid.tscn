@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://elgipfl27uee"]
+
+[ext_resource type="Script" uid="uid://dcp7kedeokrf7" path="res://scripts/GridDensityVisualizer.cs" id="1_t5fjg"]
+
+[node name="Grid" type="Node3D"]
+script = ExtResource("1_t5fjg")
+GridSize = 50
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.830544, -0.196676, 0.52107, -0.220719, 0.975202, 0.0162776, -0.51135, -0.101491, -0.853359, 23.8694, 18.1223, 1.51582)
