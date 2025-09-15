@@ -2,6 +2,12 @@ using Godot;
 
 public partial class FlightController : Camera3D
 {
+	public override void _Ready()
+	{
+		Input.MouseMode = Input.MouseModeEnum.Captured;
+	}
+
+
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if (@event is InputEventMouseMotion mouseMotion)
@@ -12,6 +18,14 @@ public partial class FlightController : Camera3D
 			float rotationY = RotationDegrees.Y - mouseMotion.Relative.X * 0.5f;
 
 			RotationDegrees = new Vector3(rotationX, rotationY, 0f);
+		}
+		if (@event.IsActionPressed("escape_mouse"))
+		{
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+		}
+		if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed)
+		{
+			Input.MouseMode = Input.MouseModeEnum.Captured;
 		}
 	}
 
