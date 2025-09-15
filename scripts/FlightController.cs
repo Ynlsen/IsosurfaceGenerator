@@ -2,20 +2,22 @@ using Godot;
 
 public partial class FlightController : Camera3D
 {
+	[Export] public float CameraSpeed = 1f;
+	[Export] public float MouseSensitivity = 0.5f;
+
 	public override void _Ready()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
-
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		if (@event is InputEventMouseMotion mouseMotion)
+		if (@event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
-			float rotationX = RotationDegrees.X - mouseMotion.Relative.Y * 0.5f;
+			float rotationX = RotationDegrees.X - mouseMotion.Relative.Y * MouseSensitivity;
 			rotationX = Mathf.Clamp(rotationX, -90f, 90f);
 
-			float rotationY = RotationDegrees.Y - mouseMotion.Relative.X * 0.5f;
+			float rotationY = RotationDegrees.Y - mouseMotion.Relative.X * MouseSensitivity;
 
 			RotationDegrees = new Vector3(rotationX, rotationY, 0f);
 		}
@@ -61,7 +63,7 @@ public partial class FlightController : Camera3D
 		if (direction != Vector3.Zero)
 		{
 			direction = direction.Normalized();
-			Position += direction * (float)delta;
+			Position += direction * CameraSpeed * (float)delta;
 		}
 	}
 
