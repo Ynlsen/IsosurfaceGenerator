@@ -2,6 +2,19 @@ using Godot;
 
 public partial class FlightController : Camera3D
 {
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event is InputEventMouseMotion mouseMotion)
+		{
+			float rotationX = RotationDegrees.X - mouseMotion.Relative.Y * 0.5f;
+			rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+
+			float rotationY = RotationDegrees.Y - mouseMotion.Relative.X * 0.5f;
+
+			RotationDegrees = new Vector3(rotationX, rotationY, 0f);
+		}
+	}
+
 	public override void _Process(double delta)
 	{
 		Vector3 direction = Vector3.Zero;
@@ -34,7 +47,7 @@ public partial class FlightController : Camera3D
 		if (direction != Vector3.Zero)
 		{
 			direction = direction.Normalized();
-			Position += direction * (float) delta;
+			Position += direction * (float)delta;
 		}
 	}
 
