@@ -51,7 +51,8 @@ public partial class IsosurfaceGenerator : Node3D
 
 	private ArrayMesh Polygonize(float[,,] density)
 	{
-		var vertices = new List<Vector3>();
+		var surfaceTool = new SurfaceTool();
+		surfaceTool.Begin(Mesh.PrimitiveType.Triangles);
 
 		var cornerPositions = new Vector3[NumCorners];
 		var cornerDensities = new float[NumCorners];
@@ -106,24 +107,17 @@ public partial class IsosurfaceGenerator : Node3D
 						int b = MarchingCubesData.TriangulationTable[cubeIndex, n + 1];
 						int c = MarchingCubesData.TriangulationTable[cubeIndex, n + 2];
 
-						vertices.Add(edgeVertices[a]);
-						vertices.Add(edgeVertices[b]);
-						vertices.Add(edgeVertices[c]);
+						surfaceTool.AddVertex(edgeVertices[c]);
+						surfaceTool.AddVertex(edgeVertices[b]);
+						surfaceTool.AddVertex(edgeVertices[a]);
 					}
 
 				}
 			}
 		}
 
-		var surfaceArray = new Godot.Collections.Array();
-		surfaceArray.Resize((int)ArrayMesh.ArrayType.Max);
-		surfaceArray[(int)ArrayMesh.ArrayType.Vertex] = vertices.ToArray();
-		GD.Print(vertices.Count);
+		surfaceTool.GenerateNormals();
 
-
-		var mesh = new ArrayMesh();
-		mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, surfaceArray);
-
-		return mesh;
+		return surfaceTool.Commit();
 	}
 }
