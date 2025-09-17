@@ -2,9 +2,20 @@ using Godot;
 
 public partial class GridDensityVisualizer : Node3D
 {
-	[Export] public int GridSize = 10;
+	private int _gridSize;
+	private bool _thresholdDensityVisualization;
+	private float _isoLevel;
+	private FastNoiseLite _noise;
 
 	private ShaderMaterial _billboardMaterial;
+
+	public void Initialize(int GridSize, bool ThresholdDensityVisualization, float IsoLevel, FastNoiseLite Noise)
+	{
+		_gridSize = GridSize;
+		_thresholdDensityVisualization = ThresholdDensityVisualization;
+		_isoLevel = IsoLevel;
+		_noise = Noise;
+	}
 
 	public override void _Ready()
 	{
@@ -12,34 +23,47 @@ public partial class GridDensityVisualizer : Node3D
 		_billboardMaterial = new ShaderMaterial { Shader = shader };
 
 		// Using MultiMesh for GPU instancing to significantly improve performance
-		var multiMesh = new MultiMesh();
-		multiMesh.Mesh = new QuadMesh { Size = new Vector2(0.1f, 0.1f) };
-		multiMesh.TransformFormat = MultiMesh.TransformFormatEnum.Transform3D;
-		multiMesh.UseCustomData = true;
-		multiMesh.InstanceCount = GridSize * GridSize * GridSize;
+		var multiMesh = new MultiMesh
+		{
+			Mesh = new QuadMesh { Size = new Vector2(0.1f, 0.1f) },
+			TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
+			UseCustomData = true,
+			InstanceCount = _gridSize * _gridSize * _gridSize
+		};
 
-		var multiMeshInstance = new MultiMeshInstance3D();
-		multiMeshInstance.Multimesh = multiMesh;
-		multiMeshInstance.MaterialOverride = _billboardMaterial;
+		var multiMeshInstance = new MultiMeshInstance3D
+		{
+			Multimesh = multiMesh,
+			MaterialOverride = _billboardMaterial
+
+		};
 		AddChild(multiMeshInstance);
 
-		FastNoiseLite noise = new FastNoiseLite();
-		noise.Frequency = 0.1f;
-
 		int counter = 0;
-		for (int i = 0; i < GridSize; i++)
-		{
-			for (int j = 0; j < GridSize; j++)
-			{
-				for (int k = 0; k < GridSize; k++)
-				{
-					var pos = new Vector3(i, j, k);
-					var transform = new Transform3D(Basis.Identity, pos);
+		var transform = new Transform3D();
 
-					float density = ((noise.GetNoise3D(i, j, k) + 1f) * 0.5f) > 0.5f ? 1f : 0f;
+		for (int i = 0; i < _gridSize; i++)
+		{
+			for (int j = 0; j < _gridSize; j++)
+			{
+				for (int k = 0; k < _gridSize; k++)
+				{
+					transform.Origin = new Vector3(i, j, k);
+
+					float density = _noise.GetNoise3D(i, j, k);
+
+					float value;
+					if (_thresholdDensityVisualization)
+					{
+						value = density < _isoLevel ? 0f : 1f;
+					}
+					else
+					{
+						value = (density + 1f) * 0.5f;
+					}
 
 					multiMesh.SetInstanceTransform(counter, transform);
-					multiMesh.SetInstanceCustomData(counter, new Color(density, 0, 0));
+					multiMesh.SetInstanceCustomData(counter, new Color(value, 0, 0));
 
 					counter++;
 				}

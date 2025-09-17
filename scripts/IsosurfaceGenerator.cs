@@ -1,10 +1,11 @@
-using System.Collections.Generic;
 using Godot;
 
 public partial class IsosurfaceGenerator : Node3D
 {
 	[Export] public int GridSize = 10;
-	[Export] public float Isolevel = 0f;
+	[Export] public float IsoLevel = 0f;
+	[Export] public PackedScene GridVisualizerScene;
+	[Export] public bool ThresholdDensityVisualization = true;
 
 	private FastNoiseLite _noise;
 	
@@ -18,6 +19,7 @@ public partial class IsosurfaceGenerator : Node3D
 		_noise.Frequency = 0.05f;
 
 		GenerateMesh();
+		SpawnVisualizer();
 	}
 
 	private void GenerateMesh()
@@ -29,6 +31,14 @@ public partial class IsosurfaceGenerator : Node3D
 		var meshInstance = new MeshInstance3D();
 		meshInstance.Mesh = mesh;
 		AddChild(meshInstance);
+	}
+
+	private void SpawnVisualizer()
+	{
+		var visualizer = GridVisualizerScene.Instantiate<GridDensityVisualizer>();
+		visualizer.Initialize(GridSize, ThresholdDensityVisualization, IsoLevel, _noise);
+
+		AddChild(visualizer);
 	}
 
 	private float[,,] SampleDensity()
@@ -75,7 +85,7 @@ public partial class IsosurfaceGenerator : Node3D
 						cornerPositions[l] = new Vector3(ci, cj, ck);
 						cornerDensities[l] = density[ci, cj, ck];
 
-						if (cornerDensities[l] < 0f)
+						if (cornerDensities[l] < IsoLevel)
 						{
 							cubeIndex |= 1 << l;
 						}
