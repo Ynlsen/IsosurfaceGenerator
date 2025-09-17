@@ -2,6 +2,8 @@ using Godot;
 
 public partial class GridDensityVisualizer : Node3D
 {
+	[Export] public Shader Shader;
+
 	private int _gridSize;
 	private bool _thresholdDensityVisualization;
 	private float _isoLevel;
@@ -19,8 +21,7 @@ public partial class GridDensityVisualizer : Node3D
 
 	public override void _Ready()
 	{
-		var shader = GD.Load<Shader>("res://shaders/BillboardPoint.gdshader");
-		_billboardMaterial = new ShaderMaterial { Shader = shader };
+		_billboardMaterial = new ShaderMaterial { Shader = Shader };
 
 		// Using MultiMesh for GPU instancing to significantly improve performance
 		var multiMesh = new MultiMesh
