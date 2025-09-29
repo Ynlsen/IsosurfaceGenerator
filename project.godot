@@ -12,12 +12,16 @@ config_version=5
 
 config/name="Marching Cubes"
 run/main_scene="uid://elgipfl27uee"
-config/features=PackedStringArray("4.4", "C#", "Forward Plus")
+config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="Marching Cubes"
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
 
 [input]
 
