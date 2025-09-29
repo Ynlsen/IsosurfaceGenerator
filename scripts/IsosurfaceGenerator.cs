@@ -5,6 +5,7 @@ public partial class IsosurfaceGenerator : Node3D
 	[Export] public int GridSize = 10;
 	[Export] public Algorithms Algorithm = Algorithms.MarchingCubes;
 	[Export] public float IsoLevel = 0f;
+	[Export] public bool ShowVisualizer = true;
 	[Export] public bool ThresholdDensityVisualization = true;
 	[Export] public float Frequency = 0.05f;
 	[Export] public int Seed = 0;
@@ -29,7 +30,6 @@ public partial class IsosurfaceGenerator : Node3D
 	public override void _Ready()
 	{
 		_noise = new FastNoiseLite();
-
 		Generate();
 		SpawnUi();
 	}
@@ -46,6 +46,10 @@ public partial class IsosurfaceGenerator : Node3D
 	private void GenerateMesh()
 	{
 		RemoveChild(_meshInstance3D);
+		if (_meshInstance3D != null && IsInstanceValid(_meshInstance3D))
+		{
+			_meshInstance3D.QueueFree();
+		}
 
 		float[,,] density = SampleDensity();
 
@@ -60,6 +64,15 @@ public partial class IsosurfaceGenerator : Node3D
 	private void SpawnVisualizer()
 	{
 		RemoveChild(_gridDensityVisualizer);
+		if (_gridDensityVisualizer != null && IsInstanceValid(_gridDensityVisualizer))
+		{
+			_gridDensityVisualizer.QueueFree();
+		}
+
+		if (!ShowVisualizer)
+		{
+			return;
+		}
 
 		_gridDensityVisualizer = GridVisualizerScene.Instantiate<GridDensityVisualizer>();
 		_gridDensityVisualizer.Initialize(GridSize, ThresholdDensityVisualization, IsoLevel, _noise);
@@ -70,6 +83,10 @@ public partial class IsosurfaceGenerator : Node3D
 	private void SpawnUi()
 	{
 		RemoveChild(_uiManager);
+		if (_uiManager != null && IsInstanceValid(_uiManager))
+		{
+			_uiManager.QueueFree();
+		}
 
 		_uiManager = UiScene.Instantiate<UiManager>();
 		_uiManager.Initialize(GridSize, Algorithm, IsoLevel, ThresholdDensityVisualization, Frequency, Seed, this);
