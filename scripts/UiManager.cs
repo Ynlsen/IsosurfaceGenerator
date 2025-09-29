@@ -12,16 +12,16 @@ public partial class UiManager : Control
 
 	private IsosurfaceGenerator _isosurfaceGenerator;
 
-	public void Initialize(int GridSize, IsosurfaceGenerator.Algorithms Algorithm, float IsoLevel, bool ShowVisualizer, bool ThresholdDensityVisualization, float Frequency, float Seed, IsosurfaceGenerator IsosurfaceGenerator)
+	public void Initialize(int gridSize, IsosurfaceGenerator.Algorithms algorithm, float isoLevel, bool showVisualizer, bool thresholdDensityVisualization, float frequency, float seed, IsosurfaceGenerator isosurfaceGenerator)
 	{
-		GridSizeInput.Value = GridSize;
-		AlgorithmInput.Selected = (int)Algorithm;
-		IsoLevelInput.Value = IsoLevel;
-		VisualizerInput.ButtonPressed = ShowVisualizer;
-		ThresholdInput.ButtonPressed = ThresholdDensityVisualization;
-		FrequencyInput.Value = Frequency;
-		SeedInput.Value = Seed;
-		_isosurfaceGenerator = IsosurfaceGenerator;
+		GridSizeInput.Value = gridSize;
+		AlgorithmInput.Selected = (int)algorithm;
+		IsoLevelInput.Value = isoLevel;
+		VisualizerInput.ButtonPressed = showVisualizer;
+		ThresholdInput.ButtonPressed = thresholdDensityVisualization;
+		FrequencyInput.Value = frequency;
+		SeedInput.Value = seed;
+		_isosurfaceGenerator = isosurfaceGenerator;
 	}
 
 	public void OnGenerateButtonPressed()

@@ -103,15 +103,15 @@ public partial class IsosurfaceGenerator : Node3D
 		AddChild(_uiManager);	
 	}
 
-	public void SetSettings(int GridSize, Algorithms Algorithm, float IsoLevel, bool ShowVisualizer, bool ThresholdDensityVisualization, float Frequency, int Seed)
+	public void SetSettings(int gridSize, Algorithms algorithm, float isoLevel, bool showVisualizer, bool thresholdDensityVisualization, float frequency, int seed)
 	{
-		this.GridSize = GridSize;
-		this.Algorithm = Algorithm;
-		this.IsoLevel = IsoLevel;
-		this.ShowVisualizer = ShowVisualizer;
-		this.ThresholdDensityVisualization = ThresholdDensityVisualization;
-		this.Frequency = Frequency;
-		this.Seed = Seed;
+		GridSize = gridSize;
+		Algorithm = algorithm;
+		IsoLevel = isoLevel;
+		ShowVisualizer = showVisualizer;
+		ThresholdDensityVisualization = thresholdDensityVisualization;
+		Frequency = frequency;
+		Seed = seed;
 	}
 
 	private float[,,] SampleDensity()

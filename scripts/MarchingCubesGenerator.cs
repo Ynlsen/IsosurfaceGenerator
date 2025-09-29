@@ -6,7 +6,7 @@ public class MarchingCubesGenerator : IsosurfaceAlgorithm
 	private const int NumEdges = 12;
 	private const int MaxTrianglesPerCube = 5;
 
-    public ArrayMesh Polygonize(float[,,] density, float IsoLevel)
+    public ArrayMesh Polygonize(float[,,] density, float isoLevel)
     {
         int GridSize = density.GetLength(0);
 
@@ -34,7 +34,7 @@ public class MarchingCubesGenerator : IsosurfaceAlgorithm
                         cornerPositions[l] = new Vector3(ci, cj, ck);
                         cornerDensities[l] = density[ci, cj, ck];
 
-                        if (cornerDensities[l] < IsoLevel)
+                        if (cornerDensities[l] < isoLevel)
                         {
                             cubeIndex |= 1 << l;
                         }
