@@ -5,9 +5,14 @@ public partial class IsosurfaceGenerator : Node3D
 	[Export] public int GridSize = 10;
 	[Export] public float IsoLevel = 0f;
 	[Export] public PackedScene GridVisualizerScene;
+	[Export] public PackedScene UiScene;
 	[Export] public bool ThresholdDensityVisualization = true;
 
 	private FastNoiseLite _noise;
+
+	private MeshInstance3D _meshInstance3D;
+	private GridDensityVisualizer _gridDensityVisualizer;
+	private UiManager _uiManager;
 	
 	private const int NumCorners = 8;
 	private const int NumEdges = 12;
@@ -18,27 +23,53 @@ public partial class IsosurfaceGenerator : Node3D
 		_noise = new FastNoiseLite();
 		_noise.Frequency = 0.05f;
 
+		Generate();
+		SpawnUi();
+	}
+
+	public void Generate()
+	{
 		GenerateMesh();
 		SpawnVisualizer();
 	}
 
 	private void GenerateMesh()
 	{
+		RemoveChild(_meshInstance3D);
+
 		float[,,] density = SampleDensity();
 
 		ArrayMesh mesh = Polygonize(density);
 
-		var meshInstance = new MeshInstance3D();
-		meshInstance.Mesh = mesh;
-		AddChild(meshInstance);
+		_meshInstance3D = new MeshInstance3D();
+		_meshInstance3D.Mesh = mesh;
+
+		AddChild(_meshInstance3D);
 	}
 
 	private void SpawnVisualizer()
 	{
-		var visualizer = GridVisualizerScene.Instantiate<GridDensityVisualizer>();
-		visualizer.Initialize(GridSize, ThresholdDensityVisualization, IsoLevel, _noise);
+		RemoveChild(_gridDensityVisualizer);
 
-		AddChild(visualizer);
+		_gridDensityVisualizer = GridVisualizerScene.Instantiate<GridDensityVisualizer>();
+		_gridDensityVisualizer.Initialize(GridSize, ThresholdDensityVisualization, IsoLevel, _noise);
+
+		AddChild(_gridDensityVisualizer);
+	}
+
+	private void SpawnUi()
+	{
+		RemoveChild(_uiManager);
+
+		_uiManager = UiScene.Instantiate<UiManager>();
+		_uiManager.Initialize(GridSize, 1, IsoLevel, ThresholdDensityVisualization, 0.05f, 0, this);
+
+		AddChild(_uiManager);	
+	}
+
+	public void SetSettings(int GridSize, int Algorithm, float IsoLevel, bool ThresholdDensityVisualization, float Frequency, float Seed)
+	{
+		this.GridSize = GridSize;
 	}
 
 	private float[,,] SampleDensity()
