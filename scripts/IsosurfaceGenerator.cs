@@ -45,9 +45,9 @@ public partial class IsosurfaceGenerator : Node3D
 
 	private void GenerateMesh()
 	{
-		RemoveChild(_meshInstance3D);
 		if (_meshInstance3D != null && IsInstanceValid(_meshInstance3D))
 		{
+			RemoveChild(_meshInstance3D);
 			_meshInstance3D.QueueFree();
 		}
 
@@ -63,9 +63,9 @@ public partial class IsosurfaceGenerator : Node3D
 
 	private void SpawnVisualizer()
 	{
-		RemoveChild(_gridDensityVisualizer);
 		if (_gridDensityVisualizer != null && IsInstanceValid(_gridDensityVisualizer))
 		{
+			RemoveChild(_gridDensityVisualizer);
 			_gridDensityVisualizer.QueueFree();
 		}
 
@@ -82,23 +82,24 @@ public partial class IsosurfaceGenerator : Node3D
 
 	private void SpawnUi()
 	{
-		RemoveChild(_uiManager);
 		if (_uiManager != null && IsInstanceValid(_uiManager))
 		{
+			RemoveChild(_uiManager);
 			_uiManager.QueueFree();
 		}
 
 		_uiManager = UiScene.Instantiate<UiManager>();
-		_uiManager.Initialize(GridSize, Algorithm, IsoLevel, ThresholdDensityVisualization, Frequency, Seed, this);
+		_uiManager.Initialize(GridSize, Algorithm, IsoLevel, ShowVisualizer, ThresholdDensityVisualization, Frequency, Seed, this);
 
 		AddChild(_uiManager);	
 	}
 
-	public void SetSettings(int GridSize, Algorithms Algorithm, float IsoLevel, bool ThresholdDensityVisualization, float Frequency, int Seed)
+	public void SetSettings(int GridSize, Algorithms Algorithm, float IsoLevel, bool ShowVisualizer, bool ThresholdDensityVisualization, float Frequency, int Seed)
 	{
 		this.GridSize = GridSize;
 		this.Algorithm = Algorithm;
 		this.IsoLevel = IsoLevel;
+		this.ShowVisualizer = ShowVisualizer;
 		this.ThresholdDensityVisualization = ThresholdDensityVisualization;
 		this.Frequency = Frequency;
 		this.Seed = Seed;

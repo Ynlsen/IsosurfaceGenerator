@@ -14,7 +14,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="Ui" type="Control" node_paths=PackedStringArray("GridSizeInput", "AlgorithmInput", "IsoLevelInput", "ThresholdInput", "FrequencyInput", "SeedInput")]
+[node name="Ui" type="Control" node_paths=PackedStringArray("GridSizeInput", "AlgorithmInput", "IsoLevelInput", "VisualizerInput", "ThresholdInput", "FrequencyInput", "SeedInput")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,6 +26,7 @@ script = ExtResource("1_dj8aq")
 GridSizeInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/GridSizeInput")
 AlgorithmInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/AlgorithmInput")
 IsoLevelInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/IsoLevelInput")
+VisualizerInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6/VisualizerInput")
 ThresholdInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/ThresholdInput")
 FrequencyInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer4/FrequencyInput")
 SeedInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer5/SeedInput")
@@ -95,6 +96,20 @@ max_value = 1.0
 step = 0.01
 suffix = "f"
 
+[node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+text = "Visualizer:"
+
+[node name="VisualizerInput" type="CheckBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+
 [node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -147,4 +162,5 @@ theme_override_constants/margin_right = 5
 layout_mode = 2
 text = "GENERATE"
 
+[connection signal="toggled" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6/VisualizerInput" to="." method="OnVisualizerInputToggled"]
 [connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GenerateButton" to="." method="OnGenerateButtonPressed"]
