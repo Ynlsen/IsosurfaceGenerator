@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c74tioewhjjyv"]
+[gd_scene load_steps=3 format=3 uid="uid://c74tioewhjjyv"]
+
+[ext_resource type="Script" uid="uid://dq1y72le5mj6x" path="res://scripts/UiManager.cs" id="1_dj8aq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ll0sn"]
 bg_color = Color(0.241156, 0.241156, 0.241156, 1)
@@ -12,13 +14,21 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="Ui" type="Control"]
+[node name="Ui" type="Control" node_paths=PackedStringArray("GridSizeInput", "AlgorithmInput", "IsoLevelInput", "ThresholdInput", "FrequencyInput", "SeedInput")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_dj8aq")
+GridSizeInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/GridSizeInput")
+AlgorithmInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/AlgorithmInput")
+IsoLevelInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/IsoLevelInput")
+ThresholdInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/ThresholdInput")
+FrequencyInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer4/FrequencyInput")
+SeedInput = NodePath("MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer5/SeedInput")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -57,12 +67,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Grid Size: "
 
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="GridSizeInput" type="SpinBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 value = 10.0
 rounded = true
 
-[node name="OptionButton" type="OptionButton" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="AlgorithmInput" type="OptionButton" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 selected = 0
 item_count = 1
@@ -77,7 +87,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "IsoLevel:"
 
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="IsoLevelInput" type="SpinBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 min_value = -1.0
@@ -94,7 +104,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 text = "Threshold:"
 
-[node name="CheckBox" type="CheckBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="ThresholdInput" type="CheckBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 button_pressed = true
@@ -107,7 +117,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Frequency:"
 
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
+[node name="FrequencyInput" type="SpinBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
@@ -122,7 +132,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Seed:"
 
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer5"]
+[node name="SeedInput" type="SpinBox" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer5"]
 layout_mode = 2
 max_value = 10000.0
 rounded = true
@@ -133,6 +143,8 @@ theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 
-[node name="Button" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="GenerateButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 text = "GENERATE"
+
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/MarginContainer/GenerateButton" to="." method="OnGenerateButtonPressed"]
