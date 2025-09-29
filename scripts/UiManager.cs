@@ -11,10 +11,10 @@ public partial class UiManager : Control
 
 	private IsosurfaceGenerator _isosurfaceGenerator;
 
-	public void Initialize(int GridSize, int Algorithm, float IsoLevel, bool ThresholdDensityVisualization, float Frequency, float Seed, IsosurfaceGenerator IsosurfaceGenerator)
+	public void Initialize(int GridSize, IsosurfaceGenerator.Algorithms Algorithm, float IsoLevel, bool ThresholdDensityVisualization, float Frequency, float Seed, IsosurfaceGenerator IsosurfaceGenerator)
 	{
 		GridSizeInput.Value = GridSize;
-		AlgorithmInput.Selected = Algorithm;
+		AlgorithmInput.Selected = (int)Algorithm;
 		IsoLevelInput.Value = IsoLevel;
 		ThresholdInput.ButtonPressed = ThresholdDensityVisualization;
 		FrequencyInput.Value = Frequency;
@@ -24,7 +24,15 @@ public partial class UiManager : Control
 
 	public void OnGenerateButtonPressed()
 	{
-		_isosurfaceGenerator.SetSettings((int)GridSizeInput.Value, AlgorithmInput.Selected, (float)IsoLevelInput.Value, ThresholdInput.ButtonPressed, (float)FrequencyInput.Value, (float)SeedInput.Value);
+		_isosurfaceGenerator.SetSettings(
+			(int)GridSizeInput.Value,
+			(IsosurfaceGenerator.Algorithms)AlgorithmInput.Selected,
+			(float)IsoLevelInput.Value,
+			ThresholdInput.ButtonPressed,
+			(float)FrequencyInput.Value,
+			(int)SeedInput.Value
+		);
+
 		_isosurfaceGenerator.Generate();
 	}
 }

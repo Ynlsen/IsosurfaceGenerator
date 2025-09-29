@@ -3,10 +3,18 @@ using Godot;
 public partial class IsosurfaceGenerator : Node3D
 {
 	[Export] public int GridSize = 10;
+	[Export] public Algorithms Algorithm = Algorithms.MarchingCubes;
 	[Export] public float IsoLevel = 0f;
+	[Export] public bool ThresholdDensityVisualization = true;
+	[Export] public float Frequency = 0.05f;
+	[Export] public int Seed = 0;
+
 	[Export] public PackedScene GridVisualizerScene;
 	[Export] public PackedScene UiScene;
-	[Export] public bool ThresholdDensityVisualization = true;
+
+	public enum Algorithms{
+		MarchingCubes
+	}
 
 	private FastNoiseLite _noise;
 
@@ -21,7 +29,6 @@ public partial class IsosurfaceGenerator : Node3D
 	public override void _Ready()
 	{
 		_noise = new FastNoiseLite();
-		_noise.Frequency = 0.05f;
 
 		Generate();
 		SpawnUi();
@@ -29,6 +36,9 @@ public partial class IsosurfaceGenerator : Node3D
 
 	public void Generate()
 	{
+		_noise.Frequency = Frequency;
+		_noise.Seed = Seed;
+
 		GenerateMesh();
 		SpawnVisualizer();
 	}
@@ -62,14 +72,19 @@ public partial class IsosurfaceGenerator : Node3D
 		RemoveChild(_uiManager);
 
 		_uiManager = UiScene.Instantiate<UiManager>();
-		_uiManager.Initialize(GridSize, 1, IsoLevel, ThresholdDensityVisualization, 0.05f, 0, this);
+		_uiManager.Initialize(GridSize, Algorithm, IsoLevel, ThresholdDensityVisualization, Frequency, Seed, this);
 
 		AddChild(_uiManager);	
 	}
 
-	public void SetSettings(int GridSize, int Algorithm, float IsoLevel, bool ThresholdDensityVisualization, float Frequency, float Seed)
+	public void SetSettings(int GridSize, Algorithms Algorithm, float IsoLevel, bool ThresholdDensityVisualization, float Frequency, int Seed)
 	{
 		this.GridSize = GridSize;
+		this.Algorithm = Algorithm;
+		this.IsoLevel = IsoLevel;
+		this.ThresholdDensityVisualization = ThresholdDensityVisualization;
+		this.Frequency = Frequency;
+		this.Seed = Seed;
 	}
 
 	private float[,,] SampleDensity()
