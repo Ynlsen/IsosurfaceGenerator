@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class UiManager : Control
@@ -8,11 +9,12 @@ public partial class UiManager : Control
 	[Export] public CheckBox VisualizerInput;
 	[Export] public CheckBox ThresholdInput;
 	[Export] public SpinBox FrequencyInput;
+	[Export] public CheckBox RandomSeedInput;
 	[Export] public SpinBox SeedInput;
 
 	private IsosurfaceGenerator _isosurfaceGenerator;
 
-	public void Initialize(int gridSize, IsosurfaceGenerator.Algorithms algorithm, float isoLevel, bool showVisualizer, bool thresholdDensityVisualization, float frequency, float seed, IsosurfaceGenerator isosurfaceGenerator)
+	public void Initialize(int gridSize, IsosurfaceGenerator.Algorithms algorithm, float isoLevel, bool showVisualizer, bool thresholdDensityVisualization, float frequency, bool randomSeed, float seed, IsosurfaceGenerator isosurfaceGenerator)
 	{
 		GridSizeInput.Value = gridSize;
 		AlgorithmInput.Selected = (int)algorithm;
@@ -20,6 +22,7 @@ public partial class UiManager : Control
 		VisualizerInput.ButtonPressed = showVisualizer;
 		ThresholdInput.ButtonPressed = thresholdDensityVisualization;
 		FrequencyInput.Value = frequency;
+		RandomSeedInput.ButtonPressed = randomSeed;
 		SeedInput.Value = seed;
 		_isosurfaceGenerator = isosurfaceGenerator;
 	}
@@ -33,6 +36,7 @@ public partial class UiManager : Control
 			VisualizerInput.ButtonPressed,
 			ThresholdInput.ButtonPressed,
 			(float)FrequencyInput.Value,
+			RandomSeedInput.ButtonPressed,
 			(int)SeedInput.Value
 		);
 
@@ -42,5 +46,10 @@ public partial class UiManager : Control
 	public void OnVisualizerInputToggled(bool ToggledOn)
 	{
 		ThresholdInput.Disabled = !ToggledOn;
+	}
+
+	public void OnRandomSeedInputToggled(bool ToggledOn)
+	{
+		SeedInput.Editable = !ToggledOn; 
 	}
 }
