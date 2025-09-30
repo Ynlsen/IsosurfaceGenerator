@@ -75,10 +75,13 @@ rounded = true
 
 [node name="AlgorithmInput" type="OptionButton" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-selected = 0
-item_count = 1
-popup/item_0/text = "Marching Cubes"
+selected = 1
+fit_to_longest_item = false
+item_count = 2
+popup/item_0/text = "Marching Cubes No Interpolations"
 popup/item_0/id = 0
+popup/item_1/text = "Marching Cubes"
+popup/item_1/id = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

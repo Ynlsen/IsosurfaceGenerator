@@ -13,7 +13,9 @@ public partial class IsosurfaceGenerator : Node3D
 	[Export] public PackedScene GridVisualizerScene;
 	[Export] public PackedScene UiScene;
 
-	public enum Algorithms{
+	public enum Algorithms
+	{
+		MarchingCubesNoInterpolation,
 		MarchingCubes
 	}
 
@@ -53,6 +55,10 @@ public partial class IsosurfaceGenerator : Node3D
 		
 		switch (Algorithm)
 		{
+			case Algorithms.MarchingCubesNoInterpolation:
+				selectedAlgorithm = new MarchingCubesGeneratorNoInterpolation();
+				break;
+				
 			case Algorithms.MarchingCubes:
 				selectedAlgorithm = new MarchingCubesGenerator();
 				break;
