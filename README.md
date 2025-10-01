@@ -13,3 +13,6 @@ This repository contains the source code for a 3D mesh generator built in Godot 
 * **More Algorithms**: Implement additional algorithms like Dual Contouring.
 * **Performance Optimization**: Explore multithreading or compute shaders to accelerate the generation process for larger grid sizes.
 * **Density Distributions**: Add support for different density functions to generate specific shapes, such as planetary spheres or varied terrain types, rather than relying on solely random noise.
+
+## Screenshot
+<img width="1704" height="957" alt="Screenshot From 2025-10-01 13-11-37" src="https://github.com/user-attachments/assets/c8d1ceab-3dfa-40bb-ac38-eafc7393ae63" />
